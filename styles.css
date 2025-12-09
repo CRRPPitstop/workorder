@@ -196,19 +196,19 @@ select {
     .container {
         padding: 20px;
     }
-
+    
     h1 {
         font-size: 22px;
     }
-
+    
     .button-group {
         flex-direction: column;
     }
-
+    
     .part-row {
         flex-direction: column;
     }
-
+    
     .part-row .qty-input,
     .part-row .price-display {
         max-width: 100%;
