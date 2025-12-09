@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Work Order Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Vehicle Work Order Form</h1>
+
+        <form id="workOrderForm">
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="time">Time:</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="vehicle">Vehicle Make/Model:</label>
+                <input type="text" id="vehicle" name="vehicle" placeholder="e.g., Toyota Camry 2020" required>
+            </div>
+
+            <div class="form-group">
+                <label for="plate">Plate #:</label>
+                <input type="text" id="plate" name="plate" placeholder="e.g., ABC-1234" required>
+            </div>
+
+            <div class="form-group">
+                <label for="jobType">Job Type:</label>
+                <select id="jobType" name="jobType" required>
+                    <option value="">-- Select Job Type --</option>
+                    <option value="Repair">Repair</option>
+                    <option value="Upgrade">Upgrade</option>
+                    <option value="Tow">Tow</option>
+                    <option value="Wrap">Wrap</option>
+                    <option value="Inspection">Inspection</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="workPerformed">Work Performed:</label>
+                <textarea id="workPerformed" name="workPerformed" rows="4" placeholder="Describe the work performed..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Parts Used / Costs:</label>
+                <div id="partsContainer">
+                    <!-- Parts will be added here dynamically -->
+                </div>
+                <button type="button" id="addPartBtn" class="btn-add-part">+ Add Part</button>
+                <div class="parts-total">
+                    <strong>Parts Subtotal: $<span id="partsSubtotal">0.00</span></strong>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="laborCost">Labor Cost:</label>
+                <input type="number" id="laborCost" name="laborCost" placeholder="0.00" step="0.01" min="0" value="0">
+            </div>
+
+            <div class="form-group">
+                <label for="totalCharged">Total Charged to Customer:</label>
+                <input type="text" id="totalCharged" name="totalCharged" placeholder="$0.00" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="customerName">Customer Name / Description:</label>
+                <input type="text" id="customerName" name="customerName" placeholder="Customer name or description" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location (if tow):</label>
+                <input type="text" id="location" name="location" placeholder="Tow location if applicable">
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes" rows="4" placeholder="Anything unusual, delays, damage noticed, customer requests, etc."></textarea>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-submit">Submit Work Order</button>
+                <button type="reset" class="btn-reset">Clear Form</button>
+            </div>
+        </form>
+
+        <div id="successMessage" class="success-message hidden">
+            Work order submitted successfully!
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
