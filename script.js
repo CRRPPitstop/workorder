@@ -1,11 +1,11 @@
-//<!-- ========================================= -->
-//<!-- ITEMS.JSON FILE CONTENT (inside script.js) -->
-//<!-- ========================================= -->
-//<!-- 
-//To edit the parts inventory, modify the ITEMS_DATA object below.
-//Add, remove, or change parts as needed.
-//Each part requires: id, name, and price
-//-->
+<!-- ========================================= -->
+<!-- ITEMS.JSON FILE CONTENT (inside script.js) -->
+<!-- ========================================= -->
+<!-- 
+To edit the parts inventory, modify the ITEMS_DATA object below.
+Add, remove, or change parts as needed.
+Each part requires: id, name, and price
+-->
 
 <script id="itemsData">
 // items.json - EDITABLE PARTS INVENTORY
@@ -421,3 +421,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
