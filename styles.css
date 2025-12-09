@@ -1,8 +1,9 @@
-<!-- ========================================= -->
-<!-- STYLES.CSS FILE CONTENT -->
-<!-- ========================================= -->
-<style id="editableStyles">
+/*<!-- ========================================= -->
+/*<!-- STYLES.CSS FILE CONTENT -->
+/*<!-- ========================================= -->
+
 /* styles.css - Editable stylesheet for Vehicle Work Order Form */
+<style id="editableStyles">
 
 * {
     margin: 0;
@@ -218,3 +219,4 @@ select {
     }
 }
 </style>
+
