@@ -1,9 +1,11 @@
 //<!-- ========================================= -->
 //<!-- ITEMS.JSON FILE CONTENT (inside script.js) -->
 //<!-- ========================================= -->
-//<!-- To edit the parts inventory, modify the ITEMS_DATA object below.
+//<!-- 
+//To edit the parts inventory, modify the ITEMS_DATA object below.
 //Add, remove, or change parts as needed.
-//Each part requires: id, name, and price -->
+//Each part requires: id, name, and price
+//-->
 
 <script id="itemsData">
 // items.json - EDITABLE PARTS INVENTORY
@@ -221,8 +223,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add initial part row
     addPartRow();
     
+    // DISCORD WEBHOOK CONFIGURATION
+    // Replace this URL with your actual Discord webhook URL
+    const DISCORD_WEBHOOK_URL = 'YOUR_DISCORD_WEBHOOK_URL_HERE';
+    
     // Form submission
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         // Collect parts data
@@ -240,7 +246,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     name: selectedOption.text.split(' - ')[0],
                     unitPrice: parseFloat(selectedOption.dataset.price),
                     quantity: parseInt(qtyInput.value),
-                    total: parseFloat(priceDisplay.value.replace('$', ''))
+                    total: parseFloat(priceDisplay.value.replace('
+    
+    // Reset form handler
+    form.addEventListener('reset', function() {
+        setTimeout(function() {
+            // Clear parts container and add one row
+            partsContainer.innerHTML = '';
+            partCounter = 0;
+            addPartRow();
+            calculateTotals();
+            
+            // Reset date/time to current
+            dateInput.valueAsDate = new Date();
+            timeInput.value = new Date().toTimeString().slice(0, 5);
+        }, 0);
+    });
+});
+</script>, ''))
                 });
             }
         });
@@ -263,16 +286,124 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         console.log('Work Order Submitted:', formData);
-        console.log('JSON Output:', JSON.stringify(formData, null, 2));
         
-        // Show success message
-        successMessage.classList.remove('hidden');
-        
-        // Hide success message after 3 seconds
-        setTimeout(function() {
-            successMessage.classList.add('hidden');
-        }, 3000);
+        // Send to Discord
+        await sendToDiscord(formData);
     });
+    
+    // Function to send data to Discord webhook
+    async function sendToDiscord(data) {
+        // Format parts list for Discord
+        let partsText = '';
+        if (data.parts.length > 0) {
+            partsText = data.parts.map(part => 
+                `• ${part.name} x${part.quantity} - ${part.unitPrice.toFixed(2)} ea. = ${part.total.toFixed(2)}`
+            ).join('\n');
+        } else {
+            partsText = 'No parts used';
+        }
+        
+        // Create Discord embed message
+        const discordPayload = {
+            embeds: [{
+                title: '🔧 New Vehicle Work Order',
+                color: 6667498, // Purple color
+                fields: [
+                    {
+                        name: '📅 Date & Time',
+                        value: `${data.date} at ${data.time}`,
+                        inline: false
+                    },
+                    {
+                        name: '🚗 Vehicle Information',
+                        value: `**Make/Model:** ${data.vehicle}\n**Plate #:** ${data.plate}`,
+                        inline: false
+                    },
+                    {
+                        name: '🔨 Job Type',
+                        value: data.jobType,
+                        inline: true
+                    },
+                    {
+                        name: '👤 Customer',
+                        value: data.customerName,
+                        inline: true
+                    },
+                    {
+                        name: '📝 Work Performed',
+                        value: data.workPerformed,
+                        inline: false
+                    },
+                    {
+                        name: '🔩 Parts Used',
+                        value: partsText,
+                        inline: false
+                    },
+                    {
+                        name: '💰 Costs',
+                        value: `**Parts Subtotal:** ${data.partsSubtotal.toFixed(2)}\n**Labor Cost:** ${data.laborCost.toFixed(2)}\n**Total Charged:** ${data.totalCharged}`,
+                        inline: false
+                    }
+                ],
+                timestamp: new Date().toISOString(),
+                footer: {
+                    text: 'Vehicle Work Order System'
+                }
+            }]
+        };
+        
+        // Add location if tow
+        if (data.location && data.location.trim() !== '') {
+            discordPayload.embeds[0].fields.push({
+                name: '📍 Tow Location',
+                value: data.location,
+                inline: false
+            });
+        }
+        
+        // Add notes if any
+        if (data.notes && data.notes.trim() !== '') {
+            discordPayload.embeds[0].fields.push({
+                name: '📋 Notes',
+                value: data.notes,
+                inline: false
+            });
+        }
+        
+        try {
+            const response = await fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(discordPayload)
+            });
+            
+            if (response.ok) {
+                console.log('Successfully sent to Discord!');
+                successMessage.textContent = 'Work order submitted successfully to Discord!';
+                successMessage.classList.remove('hidden');
+                
+                // Hide success message after 3 seconds
+                setTimeout(function() {
+                    successMessage.classList.add('hidden');
+                }, 3000);
+            } else {
+                throw new Error('Discord webhook failed');
+            }
+        } catch (error) {
+            console.error('Error sending to Discord:', error);
+            successMessage.textContent = 'Error: Could not submit to Discord. Please check your webhook URL.';
+            successMessage.style.background = '#f44336';
+            successMessage.classList.remove('hidden');
+            
+            setTimeout(function() {
+                successMessage.classList.add('hidden');
+                successMessage.style.background = '#4caf50';
+                successMessage.textContent = 'Work order submitted successfully!';
+            }, 5000);
+        }
+    }
     
     // Reset form handler
     form.addEventListener('reset', function() {
