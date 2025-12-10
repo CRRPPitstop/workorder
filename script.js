@@ -1,4 +1,4 @@
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1448101821804445886/HAOQ986Ft1L_nUkZSVb5EzcHWP70Mua-eq9zG-lMkkRJ8hIe-cF1d9ipJyNuHwQzDMDT";
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1448101860102635684/BHsMTE4FlS4-S5FDo30WJb1qngbEN6xyidvhnAYKreD4pAGwf-yAKhmLTXOhMYxaIHfF";
 
 /* Load available parts from items.json */
 let partsData = [];
@@ -137,6 +137,7 @@ function showMessage(msg, type) {
     box.textContent = msg;
     box.className = `message ${type}`;
 }
+
 
 
 
