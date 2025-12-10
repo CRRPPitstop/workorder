@@ -96,7 +96,6 @@ document.getElementById("serviceForm").addEventListener("submit", async e => {
                     { name: "Time", value: time.value },
                     { name: "Vehicle", value: vehicle.value },
                     { name: "Plate #", value: plate.value },
-                    { name: "Employee Name", value: employee.value },
                     { name: "Job Type", value: jobType.value },
                     { name: "Work Performed", value: workPerformed.value },
                     {
@@ -138,5 +137,6 @@ function showMessage(msg, type) {
     box.textContent = msg;
     box.className = `message ${type}`;
 }
+
 
 
