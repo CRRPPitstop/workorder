@@ -7,7 +7,7 @@ body {
 .container {
     max-width: 900px;
     margin: auto;
-    background: #797979;
+    background: #fff;
     padding: 25px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0,0,0,0.15);
@@ -88,5 +88,6 @@ textarea { resize: vertical; }
     display: block;
     color: red;
 }
+
 
 
